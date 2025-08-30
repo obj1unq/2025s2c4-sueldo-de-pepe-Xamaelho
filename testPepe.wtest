@@ -1,10 +1,48 @@
 import pepe.*
 
-describe "Sueldo Pepe" {
+describe "Situacion Base: Sueldo Pepe" {
 	
-	test "Test 1" {
-		//TODO: Implementame
+	test "Comprobar la categoria de Pepe" {
+		assert.equals(cadete, pepe.categoria())
 	}
-
-	
+	test "Comprobar el sueldo neto de Pepe" {
+		assert.equals(cadete.neto(), pepe.neto())
+	}
+	test "Comprobar que pepe obtendria 2000 por el bono por resultado"{
+		assert.equals(2000, bonoPorPorcentaje.bono(pepe))
+	}
+	test "Comprobar que pepe obtendria 1000 por el bono de presentismo con un dia de falta"{
+		assert.equals(1000, bonoPresentismoNormal.bono(pepe, 1))
+	}
+	test "Comprobar el sueldo de Pepe" {
+		assert.equals(23000, pepe.sueldo())
+	}
+}
+describe "Prueba de Escenarios de Pepe" {
+  test "Pepe con bono de monto fijo, falta 3 dias y su sueldo es 20800" {
+	// Presentismo normal lo tiene de base
+	pepe.bonoResultado(bonoPorMontoFijo)
+	pepe.diasAusente(3)
+	assert.equals(20800, pepe.sueldo())
+  }
+  test "Pepe es gerente con bono resultado por porcentaje, bono de presentismo nulo, y su sueldo es $16500"{
+	pepe.categoria(gerente)
+	pepe.bonoResultado(bonoPorPorcentaje)
+	pepe.bonoPresentismo(bonoPresentismoNulo)
+	assert.equals(16500, pepe.sueldo())
+  }
+  test "Pepe con bono resultados por porcentaje, bono presentismo normal, sin falta y su sueldo es de 24000"{
+	// Pepe es cadete de base
+	// Bono por porcentaje lo tiene de base
+	// Presentismo normal lo tiene de base
+	pepe.diasAusente(0)
+	assert.equals(24000, pepe.sueldo())
+  }
+  test "Pepe falto 1 día. Debería tener $23000 de sueldo"{
+	// Pepe es cadete de base
+	// Bono por porcentaje lo tiene de base
+	// Presentismo normal lo tiene de base
+	pepe.diasAusente(1)
+	assert.equals(23000, pepe.sueldo())
+  }
 }
